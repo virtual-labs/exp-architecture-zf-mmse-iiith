@@ -2,37 +2,20 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What is the primary purpose of channel equalization in wireless communication?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": To reduce noise levels in the received signal",
+        "b": " To reverse or compensate for the effects of the wireless channel on the signal",
+        "c": "To reduce transmission power",
+        "d": "To increase the transmission bandwidth"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Equalization aims to counteract channel-induced distortions like multipath fading to recover the original transmitted signal accurately.",
+        "b": "Equalization aims to counteract channel-induced distortions like multipath fading to recover the original transmitted signal accurately.",
+        "c": "Equalization aims to counteract channel-induced distortions like multipath fading to recover the original transmitted signal accurately.",
+        "d": "Equalization aims to counteract channel-induced distortions like multipath fading to recover the original transmitted signal accurately."
       },
-      "correctAnswer": "a",
-      "difficulty": "beginner"
-    },
-    {
-      "question": "This is a Sample Question 2?",
-      "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
-      },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "c",
+      "correctAnswer": "b",
       "difficulty": "beginner"
     }
   ]
