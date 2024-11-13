@@ -2,37 +2,37 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "How does MMSE equalization differ from ZF equalization in terms of noise handling?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "MMSE minimizes mean square error but increases noise",
+        "b": "MMSE minimizes mean square error while balancing noise and ISI",
+        "c": "MMSE completely removes noise.",
+        "d": "MMSE amplifies noise as channel gain"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Unlike ZF, MMSE equalization doesn’t simply invert the channel. It finds an optimal balance between minimizing ISI and controlling noise amplification.",
+        "b": "Unlike ZF, MMSE equalization doesn’t simply invert the channel. It finds an optimal balance between minimizing ISI and controlling noise amplification.",
+        "c": "Unlike ZF, MMSE equalization doesn’t simply invert the channel. It finds an optimal balance between minimizing ISI and controlling noise amplification.",
+        "d": "Unlike ZF, MMSE equalization doesn’t simply invert the channel. It finds an optimal balance between minimizing ISI and controlling noise amplification."
       },
-      "correctAnswer": "a",
+      "correctAnswer": "b",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "Which equalization method typically has better Bit Error Rate (BER) performance at low SNR levels?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "MMSE Equalizer",
+        "b": "ZF equalizer",
+        "c": "Both perform the same",
+        "d": "None"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "MMSE is more robust at low SNRs because it minimizes the overall error, taking noise into account, whereas ZF often amplifies noise.",
+        "b": "MMSE is more robust at low SNRs because it minimizes the overall error, taking noise into account, whereas ZF often amplifies noise.",
+        "c": "MMSE is more robust at low SNRs because it minimizes the overall error, taking noise into account, whereas ZF often amplifies noise.",
+        "d": "MMSE is more robust at low SNRs because it minimizes the overall error, taking noise into account, whereas ZF often amplifies noise."
       },
-      "correctAnswer": "c",
+      "correctAnswer": "a",
       "difficulty": "beginner"
     }
   ]
