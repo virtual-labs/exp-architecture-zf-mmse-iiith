@@ -388,7 +388,7 @@ function generateRandomBinaryString(length) {
   return result;
 }
 
-// Function to round each element in the matrix (here it will simply round binary values, which are 0 or 1)
+
 function getRoundedMatrix(input) {
   return input.map(value => Math.round(value)); // Will round values but in case of binary, it does nothing
 }
