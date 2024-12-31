@@ -4,7 +4,7 @@
     {
       "question": "What is the primary purpose of channel equalization in wireless communication?",
       "answers": {
-        "a": To reduce noise levels in the received signal",
+        "a": "To reduce noise levels in the received signal",
         "b": " To reverse or compensate for the effects of the wireless channel on the signal",
         "c": "To reduce transmission power",
         "d": "To increase the transmission bandwidth"
