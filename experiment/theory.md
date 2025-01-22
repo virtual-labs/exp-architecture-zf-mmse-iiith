@@ -1,5 +1,3 @@
-# Theory
-
 In wideband wireless communication, a fundamental challenge is frequency-selective fading, which occurs when different frequency components of the transmitted signal experience varying levels of attenuation and delay due to the multipath nature of wireless channels. This phenomenon is particularly prominent when the transmission symbol duration is small or the transmission bandwidth is large, leading to inter-symbol interference (ISI). ISI results from overlapping symbols in time, which can significantly degrade the performance of the communication system by causing errors in symbol detection.
 
 To address ISI in frequency-selective fading channels, several techniques are commonly employed, including:
