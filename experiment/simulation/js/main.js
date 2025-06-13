@@ -18,525 +18,90 @@ function startup() {
 
 window.onload = startup;
 
-  function parseMatrix(input) {
-    return input.trim().split('').map(row => row.split(',').map(Number));
+let originalDataMatrix, channelMatrix, noisyReceivedMatrix;
+let noiseVariance = 0.05; 
+let performanceChart = null;
+
+// --- Helper & Matrix Math Functions (No changes here) ---
+function gaussianRandom() { let u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random(); return Math.sqrt(-2.0*Math.log(u))*Math.cos(2.0*Math.PI*v); }
+function generateGaussianMatrix(r, c, v=1) { let m=[]; for(let i=0;i<r;i++){let row=[]; for(let j=0;j<c;j++){row.push(gaussianRandom()*Math.sqrt(v));} m.push(row);} return m; }
+function multiplyMatrices(A,B) { const rA=A.length,cA=A[0].length,rB=B.length,cB=B[0].length; if(cA!==rB)throw new Error('Matrix multiplication dimension mismatch'); const C=Array(rA).fill(0).map(()=>Array(cB).fill(0)); for(let i=0;i<rA;i++){for(let j=0;j<cB;j++){for(let k=0;k<cA;k++){C[i][j]+=A[i][k]*B[k][j];}}} return C; }
+function addMatrices(A,B) { return A.map((row,i)=>row.map((val,j)=>val+B[i][j])); }
+function transposeMatrix(m) { return m[0].map((_,ci)=>m.map(row=>row[ci])); }
+function identityMatrix(s) { const m=Array(s).fill(0).map(()=>Array(s).fill(0)); for(let i=0;i<s;i++)m[i][i]=1; return m; }
+function invertMatrix(m) { const s=m.length; const C=m.map((r,i)=>[...r,...identityMatrix(s)[i]]); for(let i=0;i<s;i++){let p=i; while(p<s&&C[p][i]===0)p++; if(p===s)throw new Error("Matrix is not invertible"); [C[i],C[p]]=[C[p],C[i]]; let d=C[i][i]; for(let j=i;j<2*s;j++)C[i][j]/=d; for(let k=0;k<s;k++){if(i!==k){let mult=C[k][i]; for(let j=i;j<2*s;j++)C[k][j]-=mult*C[i][j];}}} return C.map(r=>r.slice(s)); }
+function formatMatrixForDisplay(m) { return m.map(r=>'['+r.map(v=>v.toFixed(2)).join(', ')+']').join('<br>'); }
+
+// --- Core Equalization Algorithms (No changes here) ---
+function zeroForcing(H) { const H_T=transposeMatrix(H); const H_T_H=multiplyMatrices(H_T,H); const inv_H_T_H=invertMatrix(H_T_H); return multiplyMatrices(inv_H_T_H,H_T); }
+function mmse(H, n_v) { const H_T=transposeMatrix(H); const H_T_H=multiplyMatrices(H_T,H); const I=identityMatrix(H_T_H.length); const s_sq_I=I.map(r=>r.map(v=>v*n_v)); const term=addMatrices(H_T_H,s_sq_I); const inv=invertMatrix(term); return multiplyMatrices(inv,H_T); }
+
+// --- Simulation Flow (No changes here) ---
+function runSimulation() {
+    const input=document.getElementById('inputData').value.trim(); if(!/^[01]{2,8}$/.test(input)){alert('Please enter a binary string with 2 to 8 bits.');return;}
+    const noiseVarianceInput=parseFloat(document.getElementById('noiseVarianceInput').value); if(isNaN(noiseVarianceInput)||noiseVarianceInput<0){alert('Please enter a valid, non-negative number for Noise Variance.');return;}
+    noiseVariance=noiseVarianceInput; document.getElementById('loadingIndicator').style.display='flex'; document.getElementById('simulateBtn').disabled=true;
+    setTimeout(()=>{try{const dataBits=input.split('').map(Number);originalDataMatrix=[dataBits];const N=dataBits.length;channelMatrix=generateGaussianMatrix(N,N);const noiseMatrix=generateGaussianMatrix(1,N,noiseVariance);const transmittedSignal=multiplyMatrices(originalDataMatrix,channelMatrix);noisyReceivedMatrix=addMatrices(transmittedSignal,noiseMatrix);updateSignalFlow_Initial(input,noisyReceivedMatrix);document.getElementById('techniqueSelector').style.display='block';document.getElementById('resultsContainer').style.display='none';const checkedRadio=document.querySelector('input[name="technique"]:checked');if(checkedRadio){checkedRadio.checked=false;}}catch(error){console.error("Simulation Error:",error);alert("A simulation error occurred. The channel matrix might have been non-invertible. Please try again.");}finally{document.getElementById('loadingIndicator').style.display='none';document.getElementById('simulateBtn').disabled=false;}},500);
 }
 
-function generateGaussianMatrix(rows, cols) {
-    let matrix = [];
-    for (let i = 0; i < rows; i++) {
-        let row = [];
-        for (let j = 0; j < cols; j++) {
-            row.push(gaussianRandom());
+function applyAndCompareEqualizers() {
+    const selectedTechniqueRadio=document.querySelector('input[name="technique"]:checked'); if(!selectedTechniqueRadio)return; const selectedTechnique=selectedTechniqueRadio.value; if(!noisyReceivedMatrix)return;
+    document.getElementById('loadingIndicator').style.display='flex';
+    setTimeout(()=>{try{const equalizerMatrixZF=zeroForcing(channelMatrix);const recoveredSignalZF=multiplyMatrices(noisyReceivedMatrix,equalizerMatrixZF);const recoveredDataZF=makeDecision(recoveredSignalZF[0]);const berZF=calculateBER(originalDataMatrix[0],recoveredDataZF);const equalizerMatrixMMSE=mmse(channelMatrix,noiseVariance);const recoveredSignalMMSE=multiplyMatrices(noisyReceivedMatrix,equalizerMatrixMMSE);const recoveredDataMMSE=makeDecision(recoveredSignalMMSE[0]);const berMMSE=calculateBER(originalDataMatrix[0],recoveredDataMMSE);const input=document.getElementById('inputData').value.trim();updateSignalFlow_Initial(input,noisyReceivedMatrix);if(selectedTechnique==='ZF'){updateSignalFlow_Final('ZF',equalizerMatrixZF,recoveredDataZF);updateResults('ZF',berZF);}else{updateSignalFlow_Final('MMSE',equalizerMatrixMMSE,recoveredDataMMSE);updateResults('MMSE',berMMSE);} updateComparisonTable(originalDataMatrix[0],recoveredDataZF,recoveredDataMMSE);document.getElementById('resultsContainer').style.display='block';}catch(error){console.error("Equalization Error:",error);alert("An error occurred during equalization. The channel matrix might be ill-conditioned. Please simulate again.");}finally{document.getElementById('loadingIndicator').style.display='none';}},500);
+}
+
+function makeDecision(signal) { return signal.map(v => v >= 0.5 ? 1 : 0); }
+function calculateBER(original, recovered) { let errors=0; for(let i=0;i<original.length;i++){if(original[i]!==recovered[i])errors++;} return original.length > 0 ? errors/original.length:0; }
+
+// --- UI Update Functions ---
+function updateSignalFlow_Initial(input, noisyMatrix) {
+    const signalFlow=document.getElementById('signalFlow'); const noisyBinary=makeDecision(noisyMatrix[0]).join('');
+    signalFlow.innerHTML=`<div class="signal-block"><h4>Original Data (x)</h4><div class="signal-value">${input}</div></div><div class="arrow">→</div><div class="signal-block"><h4>Channel (H)</h4><div class="signal-value">${formatMatrixForDisplay(channelMatrix)}</div></div><div class="arrow">+</div><div class="signal-block"><h4>Noise (n)</h4><div class="signal-value">Variance: ${noiseVariance.toFixed(3)}</div></div><div class="arrow">→</div><div class="signal-block"><h4>Received (y)</h4><div class="signal-value" title="Received analog values: ${formatMatrixForDisplay(noisyMatrix)}">${noisyBinary} (Decision)</div></div>`;
+}
+
+function updateSignalFlow_Final(technique, equalizerMatrix, recoveredData){
+    document.getElementById('signalFlow').innerHTML+=`<div class="arrow">→</div><div class="signal-block"><h4>${technique} Equalizer (G)</h4><div class="signal-value">${formatMatrixForDisplay(equalizerMatrix)}</div></div><div class="arrow">→</div><div class="signal-block"><h4>Recovered (x̂)</h4><div class="signal-value">${recoveredData.join('')}</div></div>`;
+}
+
+function updateResults(technique, ber) {
+    document.getElementById('berValue').textContent=(ber*100).toFixed(2)+'%'; document.getElementById('berValue').className='metric-value '+(ber===0?'success-highlight':'error-highlight');
+    document.getElementById('techniqueUsed').textContent=technique;
+}
+
+function updateComparisonTable(original, recoveredZF, recoveredMMSE) {
+    const formatBits = (orig, rec) => {
+        let html = '';
+        let errors = 0;
+        for (let i = 0; i < orig.length; i++) {
+            if (orig[i] !== rec[i]) {
+                html += `<span class="error-highlight">${rec[i]}</span>`;
+                errors++;
+            } else {
+                html += rec[i];
+            }
         }
-        matrix.push(row);
-    }
-    return matrix;
+        const errorClass = errors > 0 ? 'has-errors' : '';
+        html += `<span class="bit-error ${errorClass}">${errors} bit error(s)</span>`;
+        return html;
+    };
+
+    document.getElementById('compareOriginal').innerHTML = original.join('');
+    document.getElementById('compareZf').innerHTML = formatBits(original, recoveredZF);
+    document.getElementById('compareMmse').innerHTML = formatBits(original, recoveredMMSE);
 }
 
-
-
-function getVar(){
-  return  Math.random() * 9+ 1; 
-}
-
-function oneDMatrixToString(matrix) {
-  return matrix.map(String).join('');
-}
-
-
-
-function gaussianRandom(){
-  const variance = getVar();
-  let u = 0, v = 0;
-  while (u === 0) u = Math.random(); // Converting [0,1) to (0,1)
-  while (v === 0) v = Math.random();
-  let standardNormal = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-  return standardNormal * Math.sqrt(variance);
-}
-
-function multiplyMatrices(matrixA, matrixB) {
-  const rowsA = matrixA.length;
-  const colsA = matrixA[0].length;
-  const rowsB = matrixB.length;
-  const colsB = matrixB[0].length;
-
-  // if (colsA !== rowsB) {
-  //   throw new Error('The number of columns in the first matrix must be equal to the number of rows in the second matrix.');
-  // }
-  const result = Array.from({ length: rowsA }, () => Array(colsB).fill(0));
-  for (let i = 0; i < rowsA; i++) {
-    for (let j = 0; j < colsB; j++) {
-      for (let k = 0; k < colsA; k++) {
-        result[i][j] += matrixA[i][k] * matrixB[k][j];
-      }
-    }
-  }
-
-  return result;
-}
-
-let storedInput = "";
-let gaussianMatrix, noisyResultMatrix;
-
-function getOut(input) {
-  const matrix = parseMatrix(input);
-  const cols = matrix.length;
-  gaussianMatrix = generateGaussianMatrix(cols, cols);
-  const resultMatrix = multiplyMatrices([matrix], gaussianMatrix);
-  const noiseMatrix = generateGaussianMatrix(resultMatrix.length, resultMatrix[0].length);
-  noisyResultMatrix = addMatrices(resultMatrix, noiseMatrix);
-  const roundedMatrix = noisyResultMatrix.map(row =>
-      row.map(value => Number(value.toFixed(2)))
-  );
-  console.log(roundedMatrix);
-  return { roundedMatrix, gaussianMatrix, noisyResultMatrix };
-}
-
-function getOut2(techniqueSelect) {
-  console.log("Executing technique selection...");
-
-  // Log dimensions of noisyResultMatrix and gaussianMatrix
-  console.log("Dimensions of noisyResultMatrix:", noisyResultMatrix.length, noisyResultMatrix[0].length);
-  console.log("Dimensions of gaussianMatrix:", gaussianMatrix.length, gaussianMatrix[0].length);
-
-  let outputMatrix;
-  let get;
-
-  if (techniqueSelect === 'ZF') {
-      get = zeroForcing(noisyResultMatrix, gaussianMatrix);
-      // Log dimensions of get
-      console.log("Dimensions of get (ZF):", get.length, get[0].length);
-      outputMatrix = multiplyMatrices(noisyResultMatrix, get);
-  } else if (techniqueSelect === 'MMSE') {
-      get = mmse(noisyResultMatrix, gaussianMatrix);
-      // Log dimensions of get
-      console.log("Dimensions of get (MMSE):", get.length, get[0].length);
-      outputMatrix = multiplyMatrices(noisyResultMatrix, get);
-  }
-
-  console.log("Output matrix before decision-making:");
-  console.log(outputMatrix);
-
-  const decision = makeDecision(outputMatrix);
-  const x=oneDMatrixToString(decision);
-  console.log(x);
-  return x;
-
-}
-function getOut_2(techniqueSelect, noisyResultMatrix, gaussianMatrix) {
-  console.log("Executing technique selection...");
-
-  // Log dimensions of noisyResultMatrix and gaussianMatrix
-  console.log("Dimensions of noisyResultMatrix:", noisyResultMatrix.length, noisyResultMatrix[0].length);
-  console.log("Dimensions of gaussianMatrix:", gaussianMatrix.length, gaussianMatrix[0].length);
-
-  let outputMatrix;
-  let get;
-
-  if (techniqueSelect === 'ZF') {
-      get = zeroForcing(noisyResultMatrix, gaussianMatrix);
-      console.log("Dimensions of get (ZF):", get.length, get[0].length);
-      outputMatrix = multiplyMatrices(noisyResultMatrix, get);
-  } else if (techniqueSelect === 'MMSE') {
-      get = mmse(noisyResultMatrix, gaussianMatrix);
-      // Log dimensions of get
-      console.log("Dimensions of get (MMSE):", get.length, get[0].length);
-      outputMatrix = multiplyMatrices(noisyResultMatrix, get);
-  }
-
-  console.log("Output matrix before decision-making:");
-  console.log(outputMatrix);
-
-  const decision = makeDecision(outputMatrix);
-  const x=oneDMatrixToString(decision);
-  console.log(x);
-  return x;
-
-}
-
-
-function getOutput1() {
-  storedInput = document.getElementById('input').value;
-  const x=storedInput;
-  const { roundedMatrix } = getOut(storedInput);
-
-  document.getElementById('observations1').innerText = `input: ${x}\n`;
-  document.getElementById('observations1').innerText += `\nChannel Output:${JSON.stringify(roundedMatrix)}`;
-  
-  // document.getElementById('inputSection').style.display = 'none';
-  document.getElementById('techniqueSection').style.display = 'block';
-}
-
-function getOutput2() {
-  const techniqueSelect = document.querySelector('input[name="technique"]:checked').value;
-  const decision = getOut2(techniqueSelect);
-  document.getElementById('observations1').innerText += `\n${techniqueSelect}: ${decision}\n`;
-}
-
-// // Event listeners
-// document.getElementById('calculateButton').addEventListener('click', getOutput1);
-// document.getElementById('techniqueButton').addEventListener('click', getOutput2);
-
-
-
-
-function zeroForcing(noisyMatrix, gaussianMatrix) {
-  console.log("entered in ff");
-  const gaussianTranspose = transposeMatrix(gaussianMatrix);
-  const HhH = multiplyMatrices(gaussianTranspose, gaussianMatrix);
-  const invers_HhH=invertMatrix(HhH);
-  const outputMatrix = multiplyMatrices(invers_HhH,gaussianTranspose);
-  return outputMatrix    
-}
-
-function mmse(noisyMatrix, gaussianMatrix) {
-  console.log("entered in mmse");
- const gaussianTranspose = transposeMatrix(gaussianMatrix);
- const HhH = multiplyMatrices(gaussianTranspose, gaussianMatrix);
-
- const variance = getVar();
-
-
- // 3. Create an identity matrix of the appropriate size
-
- const identity = identityMatrix(gaussianMatrix.length); // Assuming square matrices
-
-
- // 4.  Calculate variance * variance * identity matrix
-
- const scaledIdentity = identity.map(row => row.map(val => val * variance * variance));
-
- // 5.  Add the results from step 1 and step 4
- const weightMatrix = addMatrices(HhH, scaledIdentity); 
-  const lastinvers=invertMatrix(weightMatrix);
-
-  const outputMatrix = multiplyMatrices(lastinvers, transposeMatrix(gaussianMatrix));
-
-  return outputMatrix;
-
-}
-function transposeMatrix(matrix) {
-
-  return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
-
-}
-function identityMatrix(size) {
-
-  const matrix = [];
-
-  for (let i = 0; i < size; i++) {
-
-    matrix[i] = new Array(size).fill(0);
-
-    matrix[i][i] = 1; 
-
-  }
-
-  return matrix;
-
-}
-function calculateVariance(matrix){
-  const mean = calculateMean(matrix);
-  const squaredDifferences = matrix.map(row => row.map(value => Math.pow(value - mean, 2)));
-  const sumOfSquaredDifferences = squaredDifferences.reduce((sum, row) => sum + row.reduce((a, b) => a + b, 0), 0);
-  return sumOfSquaredDifferences / (matrix.length - 1);
-}
-
-function calculateMean(matrix){
-  const sum = matrix.reduce((sum, row) => sum + row.reduce((a, b) => a + b, 0), 0);
-  return sum / (matrix.length * matrix[0].length);
-}
-
-function invertMatrix(matrix)
-{
-  const rows = matrix.length;
-  const cols = matrix[0].length;
-  const inverseMatrix = [];
-  for (let i = 0; i < rows; i++) {
-    inverseMatrix[i] = [];
-    for (let j = 0; j < cols; j++) {
-      inverseMatrix[i][j] = (i === j) ? 1 : 0;
-    }
-   }
-
-   for (let i = 0; i < rows; i++){
-    let pivot = matrix[i][i];
-    if (pivot === 0) {
-      throw new Error("Matrix is not invertible");
-    }
-    for (let j = 0; j < cols; j++) {
-      matrix[i][j] /= pivot;
-      inverseMatrix[i][j] /= pivot;
-    }
-    for (let k = 0; k < rows; k++) {
-      if (k !== i) {
-        let factor = matrix[k][i];
-        for (let j = 0; j < cols; j++) {
-          matrix[k][j] -= factor * matrix[i][j];
-          inverseMatrix[k][j] -= factor * inverseMatrix[i][j];
-        }
-      }
-    }
-   }
-  return inverseMatrix;
-}
-
-
-function makeDecision(finalOutput) {
-
-  const decisionMatrix = [];
-
-  for (let i = 0; i < finalOutput.length; i++) {
-
-    decisionMatrix[i] = [];
-
-    for (let j = 0; j < finalOutput[0].length; j++) {
-
-      if (finalOutput[i][j] >= 0.5) {
-
-        decisionMatrix[i][j] = 1;
-
-      } else {
-
-        decisionMatrix[i][j] = 0;
-
-      }
-
-    }
-
-  }
-  return decisionMatrix;
-}
-
-function addMatrices(matrixA, matrixB) {
-  return matrixA.map((rowA, i) => {
-    return rowA.map((valueA, j) => {
-      return valueA + matrixB[i][j];
+// --- Performance Analysis Tab (No changes here) ---
+async function generatePerformanceChart(){document.getElementById('chartLoadingIndicator').style.display='flex';document.getElementById('generateChartBtn').disabled=true;setTimeout(async()=>{const s=[-2,0,2,4,6,8,10,12,14,16];const zB=[],mB=[];for(const snrDb of s){const bz=await runSingleSnrsimulation(snrDb,'ZF');const bm=await runSingleSnrsimulation(snrDb,'MMSE');zB.push(bz);mB.push(bm);} plotPerformanceChart(s,zB,mB);document.getElementById('chartLoadingIndicator').style.display='none';document.getElementById('generateChartBtn').disabled=false;},100);}
+function runSingleSnrsimulation(s,t){return new Promise(r=>{const M=2,nB=10000;let tE=0;const sL=10**(s/10);const n_v=1/sL;for(let i=0;i<nB/M;i++){let tx_b=Array.from({length:M},()=>Math.round(Math.random()));let tx_s=[tx_b.map(b=>(2*b-1))];let H=generateGaussianMatrix(M,M);let n=generateGaussianMatrix(M,1,n_v);let y=addMatrices(multiplyMatrices(H,transposeMatrix(tx_s)),n);try{let H_T=transposeMatrix(H);let H_TH=multiplyMatrices(H_T,H);let G;if(t==='ZF'){let iH=invertMatrix(H_TH);G=multiplyMatrices(iH,H_T);}else{let term=addMatrices(H_TH,identityMatrix(M).map(row=>row.map(v=>v*n_v)));let iT=invertMatrix(term);G=multiplyMatrices(iT,H_T);}let xh_T=multiplyMatrices(G,y);let xh=transposeMatrix(xh_T)[0];let rx_b=xh.map(v=>v>0?1:0);for(let j=0;j<M;j++){if(tx_b[j]!==rx_b[j])tE++;}}catch(e){tE+=M;}} r(tE/nB);});}
+function plotPerformanceChart(l,zD,mD){const c=document.getElementById('performanceChart').getContext('2d');if(performanceChart)performanceChart.destroy();performanceChart=new Chart(c,{type:'line',data:{labels:l,datasets:[{label:'Zero Forcing (ZF)',data:zD,borderColor:'#0d6efd',backgroundColor:'rgba(13,110,253,0.1)',tension:0.1},{label:'MMSE',data:mD,borderColor:'#dc3545',backgroundColor:'rgba(220,53,69,0.1)',tension:0.1}]},options:{responsive:true,plugins:{title:{display:true,text:'BER vs. SNR Performance (2x2 MIMO)',font:{size:16}},legend:{position:'top'}},scales:{x:{title:{display:true,text:'SNR (dB)'}},y:{type:'logarithmic',title:{display:true,text:'Bit Error Rate (BER)'}}}}});}
+
+// --- Initial Setup ---
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('loadingIndicator').style.display = 'none';
+    document.querySelectorAll('input[name="technique"]').forEach(radio => {
+        radio.addEventListener('change', applyAndCompareEqualizers);
     });
-  });
-}
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-// Function to calculate Signal-to-Noise Ratio (SNR) for 1D arrays
-function calculateSNR(original, noisy) {
-  let signalPower = 0;
-  let noisePower = 0;
-
-  // Ensure that original and noisy are arrays and of the same length
-  if (!original || !noisy || original.length !== noisy.length) {
-    console.error('Invalid input arrays:', original, noisy);
-    return 0;  // Return a default value
-  }
-
-  // Loop through the arrays assuming they are 1D
-  for (let i = 0; i < original.length; i++) {
-      if (original[i] !== undefined && noisy[i] !== undefined) {
-          signalPower += Math.pow(original[i], 2);  // Signal power
-          noisePower += Math.pow(original[i] - noisy[i], 2);  // Noise power
-      } else {
-          console.error(`original[${i}] or noisy[${i}] is undefined`);
-      }
-  }
-
-  const snr = signalPower / noisePower;
-  return snr;
-}
-
-// Function to calculate Bit Error Rate (BER) for 1D arrays
-let errors = 0;
-function calculateBER(original, decision) {
- 
-  // Flatten the arrays if they are neste
-  if (Array.isArray(original) && Array.isArray(original[0])) {
-    original = original[0];
-  }
-  if (Array.isArray(decision) && Array.isArray(decision[0])) {
-    decision = decision[0];
-  }
-
-  // Ensure that original and decision are arrays of the same length
-  if (!original || !decision || original.length !== decision.length) {
-    console.error('Invalid input arrays:', original, decision);
-    return 0;  // Return a default value
-  }
-
-  // Loop through the arrays and count errors
-  for (let i = 0; i < original.length; i++) {
-    if (original[i] !== undefined && decision[i] !== undefined) {
-      if (original[i] !== decision[i]) {
-        errors++;  // Count errors
-      }
-    } else {
-      console.error(`original[${i}] or decision[${i}] is undefined`);
-    }
-  }
-
-  const totalBits = original.length*1000;
-  return errors / totalBits;  // BER is the ratio of errors to total bits
-}
-
-
-// Function to generate a random binary string of specified length
-function generateRandomBinaryString(length) {
-  const characters = '01';  // Binary characters (0 and 1)
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-}
-
-// Function to round each element in the matrix (here it will simply round binary values, which are 0 or 1)
-function getRoundedMatrix(input) {
-  return input.map(value => Math.round(value)); // Will round values but in case of binary, it does nothing
-}
-function parseBinaryString(input) {
-  return input.split(',').map(str => parseInt(str.trim(), 10));
-}
-
-
-
-// Function to process input and generate output
-function getOutput3() {
-  const numberOfInputs = 2;  // Example number of inputs
-  const Mt = document.getElementById('input2').value;  // Example: Matrix size (row count)
-  const Mr = document.getElementById('input3').value;  // Example: Matrix size (column count)
-
-  const randomBinaryString = generateRandomBinaryString(Mt);  // Generate random binary string
-  console.log("Generated Random Binary String:", randomBinaryString);
-
-  // Parsing the binary input into an array of bits (matrix)
-  const parsedInput = parseBinaryString(randomBinaryString);  // Convert input string to an array of bits
-  console.log('Parsed Input:', parsedInput);  // Example
-
-  // Example for generating random Gaussian matrix
-  const snrZF = [];
-  const snrMMSE = [];
-  const berZF = [];
-  const berMMSE = [];
-
-  // Loop through each input for matrix operations
-  for (let i = 0; i < numberOfInputs; i++) {
-    const input = parsedInput[i];  // Get the current input bit
-
-    // Assuming input is a 1D array (row vector for matrix operations)
-    const inputMatrix = [input];  // Representing the bit as a row matrix (example)
-
-    const gaussianMatrix = generateGaussianMatrix(Mr, Mt);  // Generate a random Gaussian matrix
-    const resultMatrix = multiplyMatrices(gaussianMatrix, inputMatrix);  // Matrix multiplication
-
-    const noiseMatrix = generateGaussianMatrix(resultMatrix.length, resultMatrix[0].length);  // Generate noise matrix
-    const noisyResultMatrix = addMatrices(resultMatrix, noiseMatrix);  // Add noise to the result matrix
-
-    const roundedMatrix = getRoundedMatrix(inputMatrix);  // Round matrix values (if needed)
-
-    const zfOutput = getOut_2('ZF', noisyResultMatrix, gaussianMatrix);  // ZF processing
-    const mmseOutput = getOut_2('MMSE', noisyResultMatrix, gaussianMatrix);  // MMSE processing
-
-    // Calculate SNR for ZF and MMSE
-    const snrZFValue = calculateSNR(roundedMatrix, zfOutput);  // Calculate SNR
-    const snrMMSEValue = calculateSNR(roundedMatrix, mmseOutput);  // Calculate SNR
-
-    snrZF.push(snrZFValue);  // Store ZF SNR
-    snrMMSE.push(snrMMSEValue);  // Store MMSE SNR
-
-    // Calculate BER for ZF and MMSE
-    const berZFValue = calculateBER(roundedMatrix, zfOutput);  // Calculate BER for ZF
-    const berMMSEValue = calculateBER(roundedMatrix, mmseOutput);  // Calculate BER for MMSE
-
-    berZF.push(berZFValue);  // Store ZF BER
-    berMMSE.push(berMMSEValue);  // Store MMSE BER
-  }
-
-  // Log final arrays (optional)
-  console.log('SNR ZF:', snrZF);
-  console.log('SNR MMSE:', snrMMSE);
-  console.log('BER ZF:', berZF);
-  console.log('BER MMSE:', berMMSE);
-
-
-
-
-  document.getElementById("observations2").innerHTML = `
-  <canvas id="snrBerChart"></canvas>
-`;
-const canvas = document.getElementById('snrBerChart');
-canvas.width =900;
-canvas.height =700;
-const ctx = canvas.getContext('2d');
-
-// Ensure snrZF, berZF, snrMMSE, and berMMSE contain data
-
-const snrBerChart = new Chart(ctx, {
-  type: 'line',
-  data: {
-      labels: snrZF, // SNR values as the X-axis
-      datasets: [{
-          label: 'BER (ZF)',
-          data: berZF,
-          borderColor: 'rgba(75, 192, 192, 1)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          fill: false,
-          tension: 0.1
-      }, {
-          label: 'BER (MMSE)',
-          data: berMMSE,
-          borderColor: 'rgba(153, 102, 255, 1)',
-          backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          fill: false,
-          tension: 0.1
-      }]
-  },
-  options: {
-      responsive: true,
-      scales: {
-          x: {
-              title: {
-                  display: true,
-                  text: 'SNR (Signal to Noise Ratio)',
-                  font: {
-                      size: 16
-                  }
-              },
-              ticks: {
-                  beginAtZero: true,
-                  maxRotation: 90, // Avoid overlapping labels
-                  minRotation: 45,
-              },
-              grid: {
-                  display: true,
-                  drawBorder: true
-              }
-          },
-          y: {
-              title: {
-                  display: true,
-                  text: 'BER (Bit Error Rate)',
-                  font: {
-                      size: 16
-                  }
-              },
-              ticks: {
-                  beginAtZero: true,
-                  stepSize: 0.1
-              },
-              grid: {
-                  display: true,
-                  drawBorder: true
-              }
-          }
-      },
-      plugins: {
-          legend: {
-              position: 'top'
-          },
-          tooltip: {
-              enabled: true
-          }
-      }
-  }
 });
 
-}
+// Input validation
+document.getElementById('inputData').addEventListener('input',function(){const v=this.value;if(v&&!/^[01]*$/.test(v)){this.classList.add('is-invalid');}else{this.classList.remove('is-invalid');}});
