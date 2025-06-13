@@ -432,6 +432,9 @@ th{
   border: 2px solid #000000; /* Black border */
   border-radius: 10px;
   padding: 20px;
+  max-width: 700px;
+  min-width: 600px;
+  min-height: 500px;
 }
 
 .right-column {
