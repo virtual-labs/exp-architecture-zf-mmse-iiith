@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -415,8 +414,8 @@ body {
 
 .constellation-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
     margin-top: 20px;
 }
 
@@ -433,7 +432,13 @@ body {
     margin-bottom: 10px;
     font-weight: 700;
     color: #333;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
+}
+
+.constellation-plot canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 250px;
 }
 
 .loading {
@@ -542,5 +547,49 @@ body {
     }
     .technique-option {
         min-width: auto;
+    }
+    .constellation-container {
+        gap: 10px;
+    }
+    
+    .constellation-plot {
+        padding: 10px;
+    }
+    
+    .constellation-plot h5 {
+        font-size: 0.8rem;
+        margin-bottom: 5px;
+    }
+    
+    .constellation-plot canvas {
+        max-height: 200px;
+    }
+}
+
+/* New media query specifically for very small mobile screens */
+@media (max-width: 320px) {
+    .constellation-container {
+        gap: 8px;
+    }
+    
+    .constellation-plot {
+        padding: 8px;
+    }
+    
+    .constellation-plot h5 {
+        font-size: 0.7rem;
+        margin-bottom: 3px;
+    }
+    
+    .constellation-plot canvas {
+        max-height: 180px;
+    }
+    
+    .tab-content {
+        padding: 5px;
+    }
+    
+    .chart-container {
+        padding: 10px;
     }
 }
