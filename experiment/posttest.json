@@ -1,39 +1,92 @@
-{
-  "version": 2.0,
-  "questions": [
-    {
-      "question": "How does MMSE equalization differ from ZF equalization in terms of noise handling?",
-      "answers": {
-        "a": "MMSE minimizes mean square error but increases noise",
-        "b": "MMSE minimizes mean square error while balancing noise and ISI",
-        "c": "MMSE completely removes noise.",
-        "d": "MMSE amplifies noise as channel gain"
-      },
-      "explanations": {
-        "a": "Unlike ZF, MMSE equalization doesn’t simply invert the channel. It finds an optimal balance between minimizing ISI and controlling noise amplification.",
-        "b": "Unlike ZF, MMSE equalization doesn’t simply invert the channel. It finds an optimal balance between minimizing ISI and controlling noise amplification.",
-        "c": "Unlike ZF, MMSE equalization doesn’t simply invert the channel. It finds an optimal balance between minimizing ISI and controlling noise amplification.",
-        "d": "Unlike ZF, MMSE equalization doesn’t simply invert the channel. It finds an optimal balance between minimizing ISI and controlling noise amplification."
-      },
-      "correctAnswer": "b",
-      "difficulty": "beginner"
+[
+  {
+    "question": "Which of the following statements is true about ZF and MMSE?",
+    "options": {
+      "A": "ZF always outperforms MMSE",
+      "B": "MMSE and ZF perform equally at high noise",
+      "C": "MMSE performs better than ZF at low SNR",
+      "D": "MMSE is a linear approximation of ZF"
     },
-    {
-      "question": "Which equalization method typically has better Bit Error Rate (BER) performance at low SNR levels?",
-      "answers": {
-        "a": "MMSE Equalizer",
-        "b": "ZF equalizer",
-        "c": "Both perform the same",
-        "d": "None"
-      },
-      "explanations": {
-        "a": "MMSE is more robust at low SNRs because it minimizes the overall error, taking noise into account, whereas ZF often amplifies noise.",
-        "b": "MMSE is more robust at low SNRs because it minimizes the overall error, taking noise into account, whereas ZF often amplifies noise.",
-        "c": "MMSE is more robust at low SNRs because it minimizes the overall error, taking noise into account, whereas ZF often amplifies noise.",
-        "d": "MMSE is more robust at low SNRs because it minimizes the overall error, taking noise into account, whereas ZF often amplifies noise."
-      },
-      "correctAnswer": "a",
-      "difficulty": "beginner"
-    }
-  ]
-}
+    "answer": "C"
+  },
+  {
+    "question": "What is the major drawback of the Zero Forcing (ZF) equalizer?",
+    "options": {
+      "A": "It requires channel state information",
+      "B": "It amplifies noise in channels with deep fades or low singular values",
+      "C": "It has high computational complexity",
+      "D": "It does not work with MIMO systems"
+    },
+    "answer": "B"
+  },
+  {
+    "question": "Which equalizer is computationally simpler but less robust to noise?",
+    "options": {
+      "A": "MMSE",
+      "B": "ZF",
+      "C": "Maximum Likelihood",
+      "D": "Sphere Decoder"
+    },
+    "answer": "B"
+  },
+  {
+    "question": "The MMSE equalizer reduces to the Zero Forcing equalizer in which case?",
+    "options": {
+      "A": "High noise power",
+      "B": "Low signal power",
+      "C": "Infinite SNR (i.e., noise → 0)",
+      "D": "Infinite bandwidth"
+    },
+    "answer": "C"
+  },
+  {
+    "question": "What is the effect of MMSE regularization compared to ZF?",
+    "options": {
+      "A": "It reduces inter-symbol interference but increases complexity",
+      "B": "It adds a noise-dependent regularization term to reduce noise amplification",
+      "C": "It ignores the channel matrix",
+      "D": "It increases the condition number of the matrix"
+    },
+    "answer": "B"
+  },
+  {
+    "question": "Which matrix operation is used in the ZF equalizer for a MIMO channel with matrix Hᴴ?",
+    "options": {
+      "A": "Hᴴ",
+      "B": "(Hᴴ H)⁻¹ Hᴴ",
+      "C": "H Hᴴ",
+      "D": "H⁻¹"
+    },
+    "answer": "B"
+  },
+  {
+    "question": "In a system where H is the channel matrix and σ² is the noise variance, what is the MMSE equalizer matrix?",
+    "options": {
+      "A": "H⁻¹",
+      "B": "(Hᴴ H)⁻¹ Hᴴ",
+      "C": "(Hᴴ H + σ² I)⁻¹ Hᴴ",
+      "D": "Hᴴ (H Hᴴ + σ² I)⁻¹"
+    },
+    "answer": "C"
+  },
+  {
+    "question": "What happens when the MIMO channel matrix Hᴴ is not full-rank?",
+    "options": {
+      "A": "ZF works perfectly",
+      "B": "MMSE and ZF perform the same",
+      "C": "ZF becomes ill-conditioned and performs poorly",
+      "D": "Both ZF and MMSE are optimal"
+    },
+    "answer": "C"
+  },
+  {
+    "question": "Which equalizer performs best in terms of Bit Error Rate (BER) in a noisy and ill-conditioned channel?",
+    "options": {
+      "A": "Zero Forcing",
+      "B": "MMSE",
+      "C": "Maximum Likelihood Detection",
+      "D": "Matched Filter"
+    },
+    "answer": "C"
+  }
+]
