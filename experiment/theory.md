@@ -5,6 +5,8 @@ To address ISI in frequency-selective fading channels, several techniques are co
   2) Multi-Carrier Modulation - Splitting the signal into multiple subcarriers to reduce ISI. 
   3) Spread Spectrum - Spreading the signal over a wide frequency band to reduce the impact of fading on any particular frequency component.
 
+<img src=".\images\exp8.png">
+
 This experiment focuses on channel equalization and introduces two primary equalization techniques: 
   1) Zero Forcing (ZF) and
   2) Minimum Mean Square Error (MMSE) equalizers.
