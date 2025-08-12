@@ -1,10 +1,11 @@
-
 In wideband wireless communication, a fundamental challenge is frequency-selective fading, which occurs when different frequency components of the transmitted signal experience varying levels of attenuation and delay due to the multipath nature of wireless channels. This phenomenon is particularly prominent when the transmission symbol duration is small or the transmission bandwidth is large, leading to inter-symbol interference (ISI). ISI results from overlapping symbols in time, which can significantly degrade the performance of the communication system by causing errors in symbol detection.
 
 To address ISI in frequency-selective fading channels, several techniques are commonly employed, including:
   1) Channel Equalization - Using equalizers to reverse the effects of the channel and recover the transmitted signal. 
   2) Multi-Carrier Modulation - Splitting the signal into multiple subcarriers to reduce ISI. 
   3) Spread Spectrum - Spreading the signal over a wide frequency band to reduce the impact of fading on any particular frequency component.
+
+<img src=".\images\exp8.png">
 
 This experiment focuses on channel equalization and introduces two primary equalization techniques: 
   1) Zero Forcing (ZF) and
