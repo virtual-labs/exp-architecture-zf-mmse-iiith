@@ -5,9 +5,20 @@ To address ISI in frequency-selective fading channels, several techniques are co
   2) Multi-Carrier Modulation - Splitting the signal into multiple subcarriers to reduce ISI. 
   3) Spread Spectrum - Spreading the signal over a wide frequency band to reduce the impact of fading on any particular frequency component.
 
+
+
 <img src=".\images\exp8.png">
 
-This experiment focuses on channel equalization and introduces two primary equalization techniques: 
+
+The signal arriving at the reciever is given by
+
+$$
+\begin{aligned}
+  Y = \mathbf{H}X + N
+\end{aligned}
+$$
+
+This experiment focuses on channel equalization i.e removing the effect on $\mathbf{H}$ on the recieved signal to make it as close as possible to the transmitted symbol $X$  while also accounting for noise. To do this, we will now understand two primary equalization techniques: 
   1) Zero Forcing (ZF) and
   2) Minimum Mean Square Error (MMSE) equalizers.
 
@@ -23,9 +34,15 @@ $$
 \end{aligned}
 $$
 
-where, H represents the channel matrix.
+The recieved signal after ZF equalization reduces to
 
-By inverting the channel, the ZF equalizer restores the transmitted signal by "forcing" the effect of the channel to zero. However, this approach has a significant drawback: when the channel gain is small or near zero, the ZF equalizer amplifies the noise in the received signal. This issue is particularly problematic in low Signal-to-Noise Ratio (SNR) regimes, where ZF equalization can lead to poor Bit Error Rate (BER) performance.
+$$
+\begin{aligned}
+  Y = X + \frac{N}{H}
+\end{aligned}
+$$
+
+By inverting the channel, the ZF equalizer restores the transmitted signal by "forcing" the effect of the channel to zero. However, we can observe from the above equation that this approach has a significant drawback: when the channel gain is small or near zero, the ZF equalizer amplifies the noise in the received signal. This issue is particularly problematic in low Signal-to-Noise Ratio (SNR) regimes, where ZF equalization can lead to poor Bit Error Rate (BER) performance. To combat for this, we move to understand MMSE equalizer.
 
 ## Minimum Mean Square Error (MMSE) Equalizer
 
@@ -33,7 +50,7 @@ The Minimum Mean Square Error (MMSE) equalizer is designed to optimize signal re
 
 $$
 \begin{aligned}
-   W_{MMSE} = \left(H^HH + \sigma_n^2I\right)H^H
+   W_{MMSE} = \left(H^HH + \sigma_n^2I\right)^{-1}H^H
 \end{aligned}
 $$
 
