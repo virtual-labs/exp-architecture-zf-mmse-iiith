@@ -30,14 +30,19 @@
 
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="equalizer" role="tabpanel">
-                    <div class="instructions-card">
-                        <h3>MIMO Experiment Instructions</h3>
-                        <ol>
-                            <li>Select your modulation scheme and MIMO configuration (Nt transmit × Nr receive antennas).</li>
-                            <li>Set the desired SNR and click Simulate Channel to run equalization.</li>
-                            <li>Observe the signal flow, performance metrics, and constellation plots.</li>
-                            <li>Click Run with New Symbols to repeat with new random symbols.</li>
-                        </ol>
+                    <div class="v-collapsible-instruction-container v-instruction-container">
+                        <div class="v-collapsible is-size-5">Instructions</div>
+                        <div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
+                            <ol>
+                                <li><strong>Getting Started:</strong> This simulation demonstrates MIMO equalization techniques (ZF and MMSE) for wireless systems.</li>
+                                <li><strong>Configure Setup:</strong> Select your modulation scheme (BPSK, QPSK, QAM) and MIMO configuration (Nt transmit × Nr receive antennas).</li>
+                                <li><strong>Set Parameters:</strong> Adjust the SNR value to simulate different channel conditions.</li>
+                                <li><strong>Simulate Channel:</strong> Click the "Simulate Channel" button to generate a random MIMO channel and observe equalization.</li>
+                                <li><strong>Compare Equalizers:</strong> Switch between ZF and MMSE equalizer types to compare their performance.</li>
+                                <li><strong>Analyze Results:</strong> Examine the signal flow diagrams, constellation plots, and performance metrics.</li>
+                                <li><strong>Run New Simulation:</strong> Click "Run with New Symbols" to repeat with different random symbols while keeping the same channel.</li>
+                            </ol>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -131,10 +136,21 @@
                 </div>
 
                 <div class="tab-pane fade" id="performance" role="tabpanel">
-                    <div class="instructions-card">
-                        <h3>Performance Analysis</h3>
-                        <p>This tab allows you to compare the Symbol Error Rate (SER) for up to 5 different configurations. Select your parameters, click Plot Configuration, and the curve will be added to the chart. Click Reset Plots to start over.</p>
+                    <div class="v-collapsible-instruction-container v-instruction-container">
+                        <div class="v-collapsible is-size-5">Instructions</div>
+                        <div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
+                            <ol>
+                                <li><strong>Performance Analysis:</strong> This tab allows you to compare SER (Symbol Error Rate) for different configurations.</li>
+                                <li><strong>Select Parameters:</strong> Choose modulation scheme, antenna configuration, and noise enhancement factor.</li>
+                                <li><strong>Choose Equalizer:</strong> Select either ZF or MMSE equalization technique.</li>
+                                <li><strong>Generate Curve:</strong> Click "Plot Configuration" to add a SER curve to the chart.</li>
+                                <li><strong>Compare Results:</strong> Add up to 5 different configurations to compare their performance.</li>
+                                <li><strong>Start Over:</strong> Click "Reset Plots" to clear all curves and begin a new comparison.</li>
+                                <li><strong>Interpretation:</strong> Lower curves indicate better performance. MMSE typically outperforms ZF at low SNR values.</li>
+                            </ol>
+                        </div>
                     </div>
+                    
                     <div class="row">
                         <div class="col-xl-6 col-lg-5 col-md-12">
                             <div class="analysis-control-panel">
@@ -215,6 +231,16 @@
                 if (canvas.chart) {
                     canvas.chart.resize();
                 }
+            });
+        });
+        
+        // Add collapsible functionality for the instructions
+        document.addEventListener('DOMContentLoaded', function() {
+            const collapsibles = document.querySelectorAll('.v-collapsible');
+            collapsibles.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
             });
         });
     </script>

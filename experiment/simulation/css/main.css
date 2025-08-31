@@ -17,7 +17,7 @@ body {
 
 .main-header {
     text-align: center;
-    color: #2c3e50;
+    color: black;
     margin-bottom: 30px;
 }
 
@@ -44,7 +44,7 @@ body {
 .tab-container {
     background: #f8f9fa;
     padding: 0;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid black;
 }
 
 .nav-tabs {
@@ -85,12 +85,71 @@ body {
 
 .instructions-card {
     background: white; /* Changed from linear-gradient */
-    color: #1a237e;
+    color: white;
     border-radius: 20px;
     padding: 20px;
     margin-bottom: 30px;
+    border: 1px solid black;
+    box-shadow: 0 8px 25px rgba(63, 81, 181, 0.1);
+}
+
+/* Collapsible Instructions Styles */
+.v-collapsible-instruction-container {
+    background: white;
+    border-radius: 20px;
+    padding: 0;
+    margin-bottom: 30px;
     border: 1px solid rgba(63, 81, 181, 0.1);
     box-shadow: 0 8px 25px rgba(63, 81, 181, 0.1);
+    overflow: hidden;
+}
+
+.v-instruction-container {
+    color: black;
+}
+
+.v-collapsible {
+    background: #3f51b5;
+    color: white;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.v-collapsible::after {
+    content: '\002B';  /* Plus sign */
+    position: absolute;
+    right: 20px;
+    transition: all 0.3s ease;
+}
+
+.v-collapsible.active::after {
+    content: '\2212';  /* Minus sign */
+}
+
+.v-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: white;
+}
+
+.v-collapsible.active + .v-content {
+    max-height: 500px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.v-content ol {
+    margin-left: 1.5em;
+}
+
+.v-content li {
+    margin-bottom: 12px;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    line-height: 1.6;
 }
 
 .instructions-card h3 {
