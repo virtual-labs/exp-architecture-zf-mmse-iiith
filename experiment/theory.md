@@ -10,16 +10,15 @@ To address ISI in frequency-selective fading channels, several techniques are co
 
 In this experiment, we study the ISI removal through channel equalization. The following diagram shows equalizer equipped MIMO systems for narrowband communication.
 
-<p>
 <img src=".\images\exp8.png">
-</p>
+
 
 
 The signal arriving at the reciever can be modeled as
 
 $$
 \begin{aligned}
-  \mathbf{y} = \mathbf{H}\mathbf{x} + \mathbf{n
+  \mathbf{y} = \mathbf{H}\mathbf{x} + \mathbf{n}
 \end{aligned}
 $$
 
