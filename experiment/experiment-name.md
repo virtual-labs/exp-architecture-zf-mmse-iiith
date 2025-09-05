@@ -1,1 +1,1 @@
-# Reciever Architecture : ZF, MMSE
+# Reciever Architecture : ZF and MMSE
