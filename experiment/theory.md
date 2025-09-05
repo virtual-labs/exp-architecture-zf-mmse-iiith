@@ -1,10 +1,10 @@
-AWGN channel..wireless channel..phase shift ...
+AWGN channel..narrow band wireless channel..phase shift elimination...the same effect happend even in WB...
 
 
 In wideband wireless communication, a fundamental challenge is frequency-selective fading, which occurs when delay spread of the wireless channel is significantly larger compared to the symbol duration. As the symbol duration is inversely related to the bandwidth, the wideband signal usually undergoes frequency-selective fading that leads to inter-symbol interference (ISI). Basically, the superposition of multiple copies of the signal recieved through multipath with larger delay spread becomes overlapping symbols in time which essentially contributes to ISI. This results in a significant degradation in the performance of the communication system by causing errors in symbol detection.
 
 To address ISI in frequency-selective fading channels, several techniques are commonly employed, including:
-  1) \textit{**Channel Equalization**} - The equalizers are used on the reciever side to reverse the effects of the channel and recover the transmitted signal. 
+  1) **Channel Equalization** - The equalizers are used on the reciever side to reverse the effects of the channel and recover the transmitted signal. 
   2) Multi-Carrier Modulation - Splitting the wideband channel into multiple narrowband subcarriers. 
   3) Spread Spectrum - Spreading the signal over a wide frequency band to reduce the impact of fading on any particular frequency component.
 
