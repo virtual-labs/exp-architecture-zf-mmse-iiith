@@ -19,23 +19,6 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "What is the primary purpose of equalization at the receiver in a MIMO system?",
-      "answers": {
-        "a": "Reduce the transmit power",
-        "b": "Increase the bandwidth",
-        "c": "Compensate for inter-symbol interference and spatial interference",
-        "d": "Increase the antenna gain"
-      },
-      "explanations": {
-        "a": "Incorrect – equalization does not directly reduce transmit power.",
-        "b": "Incorrect – bandwidth remains unchanged.",
-        "c": "Correct – equalization mitigates ISI and interference between streams.",
-        "d": "Incorrect – antenna gain is unrelated to equalization."
-      },
-      "correctAnswer": "c",
-      "difficulty": "intermediate"
-    },
-    {
       "question": "The Zero Forcing (ZF) equalizer aims to:",
       "answers": {
         "a": "Minimize noise power",
@@ -99,57 +82,6 @@
         "b": "Correct – MMSE handles noise better at low SNR.",
         "c": "Incorrect – they differ significantly at low SNR.",
         "d": "Incorrect – MMSE is better in this scenario."
-      },
-      "correctAnswer": "b",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "Which equalizer performs better in low SNR scenarios?",
-      "answers": {
-        "a": "Zero Forcing (ZF)",
-        "b": "MMSE",
-        "c": "Matched Filter",
-        "d": "Maximum Likelihood"
-      },
-      "explanations": {
-        "a": "Incorrect – ZF amplifies noise in low SNR conditions.",
-        "b": "Correct – MMSE's noise-aware design makes it more robust at low SNR.",
-        "c": "Incorrect – matched filters are optimal for noise-free or single-user cases, not noisy MIMO.",
-        "d": "Incorrect – maximum likelihood is optimal but often impractical for complexity reasons."
-      },
-      "correctAnswer": "b",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "The MMSE equalizer aims to:",
-      "answers": {
-        "a": "Maximize signal power only",
-        "b": "Completely remove interference regardless of noise",
-        "c": "Minimize the mean square error between transmitted and received signals",
-        "d": "Remove noise only"
-      },
-      "explanations": {
-        "a": "Incorrect – maximizing signal power is not MMSE's main goal.",
-        "b": "Incorrect – MMSE trades off between interference removal and noise handling.",
-        "c": "Correct – MMSE directly minimizes the average squared error.",
-        "d": "Incorrect – it mitigates both noise and ISI, not just noise."
-      },
-      "correctAnswer": "c",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "What does Zero Forcing ignore that MMSE takes into account?",
-      "answers": {
-        "a": "Channel correlation",
-        "b": "Channel noise",
-        "c": "Number of transmit antennas",
-        "d": "Symbol rate"
-      },
-      "explanations": {
-        "a": "Incorrect – both can operate without explicit correlation info.",
-        "b": "Correct – ZF ignores noise, while MMSE factors it in.",
-        "c": "Incorrect – antenna count is known to both.",
-        "d": "Incorrect – symbol rate is unrelated to this distinction."
       },
       "correctAnswer": "b",
       "difficulty": "intermediate"
