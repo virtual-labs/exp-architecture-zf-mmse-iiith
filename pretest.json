@@ -1,0 +1,90 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "What is the primary purpose of channel equalisation in wireless communication?",
+      "answers": {
+        "a": "Reduce noise levels in the received signal.",
+        "b": "Reverse or compensate for the effects of the wireless channel on the signal.",
+        "c": "Reduce transmission power.",
+        "d": "Increase the transmission bandwidth."
+      },
+      "explanations": {
+        "a": "Incorrect – equalisation primarily deals with channel distortions, not just noise.",
+        "b": "Correct – the goal is to reverse the channel's distortion effects.",
+        "c": "Incorrect – equalisation does not affect transmit power.",
+        "d": "Incorrect – it does not increase bandwidth."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "The Zero Forcing (ZF) equalizer aims to:",
+      "answers": {
+        "a": "Minimize noise power",
+        "b": "Maximize signal-to-noise ratio",
+        "c": "Completely eliminate inter-stream interference",
+        "d": "Match the channel matrix"
+      },
+      "explanations": {
+        "a": "Incorrect – ZF does not focus on noise minimization.",
+        "b": "Incorrect – ZF can degrade SNR due to noise amplification.",
+        "c": "Correct – ZF attempts to nullify inter-stream interference entirely.",
+        "d": "Incorrect – matching the channel is the role of a matched filter."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "How does MMSE equalization differ from ZF equalization in terms of noise handling?",
+      "answers": {
+        "a": "MMSE minimizes mean square error but increases noise.",
+        "b": "MMSE minimizes mean square error while balancing noise and ISI.",
+        "c": "MMSE completely removes noise.",
+        "d": "MMSE amplifies noise as channel gain approaches zero."
+      },
+      "explanations": {
+        "a": "Incorrect – MMSE balances noise and ISI instead of just minimizing error at the cost of noise.",
+        "b": "Correct – MMSE trades off between removing interference and avoiding noise amplification.",
+        "c": "Incorrect – no equalizer can completely remove noise.",
+        "d": "Incorrect – this describes ZF behaviour, not MMSE."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which of the following equalizers considers noise power explicitly?",
+      "answers": {
+        "a": "Zero Forcing",
+        "b": "Matched Filter",
+        "c": "MMSE",
+        "d": "Decision Feedback Equalizer"
+      },
+      "explanations": {
+        "a": "Incorrect – ZF ignores noise.",
+        "b": "Incorrect – matched filters do not explicitly account for noise power.",
+        "c": "Correct – MMSE incorporates noise variance into its optimization.",
+        "d": "Incorrect – DFE reduces ISI but does not directly factor noise into its design."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which equalization method typically has better Bit Error Rate (BER) performance at low SNR levels?",
+      "answers": {
+        "a": "Zero Forcing (ZF) Equalizer",
+        "b": "MMSE Equalizer",
+        "c": "Both perform the same",
+        "d": "None of the above"
+      },
+      "explanations": {
+        "a": "Incorrect – ZF suffers more at low SNR due to noise amplification.",
+        "b": "Correct – MMSE handles noise better at low SNR.",
+        "c": "Incorrect – they differ significantly at low SNR.",
+        "d": "Incorrect – MMSE is better in this scenario."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    }
+  ]
+}

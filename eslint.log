@@ -1,0 +1,21 @@
+
+/home/runner/work/exp-architecture-zf-mmse-iiith/exp-architecture-zf-mmse-iiith/experiment/simulation/js/main.js
+   77:29  warning  'bootstrap' is not defined                           no-undef
+  118:17  warning  'updateNoiseAmplificationVisibility' is not defined  no-undef
+  124:9   warning  'updateNoiseAmplificationVisibility' is not defined  no-undef
+  154:16  warning  'runSimulation' is defined but never used            no-unused-vars
+  496:11  warning  'E_avg' is assigned a value but never used           no-unused-vars
+  572:16  warning  'addSERCurve' is defined but never used              no-unused-vars
+  602:10  warning  'resetSERChart' is defined but never used            no-unused-vars
+  631:20  warning  'Chart' is not defined                               no-undef
+  649:47  warning  'i' is defined but never used                        no-unused-vars
+  649:50  warning  'ticks' is defined but never used                    no-unused-vars
+  721:20  warning  'Chart' is not defined                               no-undef
+  739:47  warning  'i' is defined but never used                        no-unused-vars
+  739:50  warning  'ticks' is defined but never used                    no-unused-vars
+  827:10  warning  'resetConstellationPlots' is defined but never used  no-unused-vars
+  956:39  warning  'Chart' is not defined                               no-undef
+  990:58  warning  'chartData' is defined but never used                no-unused-vars
+
+✖ 16 problems (0 errors, 16 warnings)
+
