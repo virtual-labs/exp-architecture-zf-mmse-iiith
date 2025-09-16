@@ -31,17 +31,19 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="equalizer" role="tabpanel">
                     <div class="v-collapsible-instruction-container v-instruction-container">
-                        <div class="v-collapsible is-size-5">Instructions</div>
-                        <div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
-                            <ol>
-                                <li><strong>Getting Started:</strong> This simulation demonstrates MIMO equalization techniques (ZF and MMSE) for wireless systems.</li>
-                                <li><strong>Configure Setup:</strong> Select your modulation scheme (BPSK, QPSK, QAM) and MIMO configuration (Nt transmit × Nr receive antennas).</li>
-                                <li><strong>Set Parameters:</strong> Adjust the SNR value to simulate different channel conditions.</li>
-                                <li><strong>Simulate Channel:</strong> Click the "Simulate Channel" button to generate a random MIMO channel and observe equalization.</li>
-                                <li><strong>Compare Equalizers:</strong> Switch between ZF and MMSE equalizer types to compare their performance.</li>
-                                <li><strong>Analyze Results:</strong> Examine the signal flow diagrams, constellation plots, and performance metrics.</li>
-                                <li><strong>Run New Simulation:</strong> Click "Run with New Symbols" to repeat with different random symbols while keeping the same channel.</li>
-                            </ol>
+                        <div class="v-collapsible is-size-5" style="text-align: center;">Instructions</div>
+                        <div class="v-content">
+                            <div class="v-content-inner" style="text-align: left !important;">
+                                <p>Follow these steps to explore the equalizer simulation:</p>
+                                <ol>
+                                    <li>Select <strong>Modulation Scheme</strong> (BPSK, QPSK, 16-QAM, 64-QAM) and <strong>MIMO Configuration</strong> (Nt × Nr antennas).</li>
+                                    <li>Set the <strong>SNR (dB)</strong> value to simulate different channel conditions.</li>
+                                    <li>Click <strong>"Simulate Channel"</strong> to generate a random MIMO channel matrix.</li>
+                                    <li>Observe the signal flow diagram and constellation plots showing transmitted and received signals.</li>
+                                    <li>Switch between <strong>ZF</strong> and <strong>MMSE</strong> equalizers to compare their performance with the same channel.</li>
+                                    <li>Click <strong>"Run with New Symbols"</strong> to simulate different symbols through the same channel.</li>
+                                </ol>
+                            </div>
                         </div>
                     </div>
 
@@ -138,16 +140,18 @@
                 <div class="tab-pane fade" id="performance" role="tabpanel">
                     <div class="v-collapsible-instruction-container v-instruction-container">
                         <div class="v-collapsible is-size-5">Instructions</div>
-                        <div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
-                            <ol>
-                                <li><strong>Performance Analysis:</strong> This tab allows you to compare SER (Symbol Error Rate) for different configurations.</li>
-                                <li><strong>Select Parameters:</strong> Choose modulation scheme, antenna configuration, and noise enhancement factor.</li>
-                                <li><strong>Choose Equalizer:</strong> Select either ZF or MMSE equalization technique.</li>
-                                <li><strong>Generate Curve:</strong> Click "Plot Configuration" to add a SER curve to the chart.</li>
-                                <li><strong>Compare Results:</strong> Add up to 5 different configurations to compare their performance.</li>
-                                <li><strong>Start Over:</strong> Click "Reset Plots" to clear all curves and begin a new comparison.</li>
-                                <li><strong>Interpretation:</strong> Lower curves indicate better performance. MMSE typically outperforms ZF at low SNR values.</li>
-                            </ol>
+                        <div class="v-content">
+                            <div class="v-content-inner" style="text-align: left !important;">
+                                <p>Follow these steps to analyze performance metrics:</p>
+                                <ol>
+                                    <li>Select <strong>Modulation Scheme</strong> and <strong>Antenna Configuration</strong> (Nt × Nr).</li>
+                                    <li>Choose a <strong>Noise Enhancement Factor</strong> to simulate different channel conditions.</li>
+                                    <li>Select either <strong>ZF</strong> or <strong>MMSE</strong> equalizer technique.</li>
+                                    <li>Click <strong>"Plot Configuration"</strong> to generate a SER vs SNR curve with these settings.</li>
+                                    <li>Add multiple curves (up to 5) with different settings to compare performance.</li>
+                                    <li>Use <strong>"Reset Plots"</strong> to clear all curves and start a new comparison.</li>
+                                </ol>
+                            </div>
                         </div>
                     </div>
                     
