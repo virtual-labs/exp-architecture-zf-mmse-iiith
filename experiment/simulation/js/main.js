@@ -698,12 +698,12 @@ function updateAnalysisChart() {
                 },
                 legend: {
                     display: true,
-                    position: 'top',
-                    align: 'end',
+                    position: 'bottom',
+                    align: 'center',
                     labels: {
                         usePointStyle: true,
                         pointStyle: 'line',
-                        font: { size: 10 }
+                        font: { size: 14 }
                     }
                 }
             }
@@ -786,12 +786,12 @@ function initializeSERChart() {
                 },
                 legend: {
                     display: true,
-                    position: 'top',
-                    align: 'end',
+                    position: 'bottom',
+                    align: 'center',
                     labels: {
                         usePointStyle: true,
                         pointStyle: 'line',
-                        font: { size: 10 }
+                        font: { size: 14 }
                     }
                 }
             }
