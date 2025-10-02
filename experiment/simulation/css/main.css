@@ -266,7 +266,7 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #98CB3B, #6a994e);  
+    background: linear-gradient(135deg, #98CB3B, #98CB3B);  
     box-shadow: 0 8px 25px rgba(140, 179, 105, 0.3);
     color: white;
 }
@@ -278,7 +278,7 @@ body {
 }
 
 .btn-success {
-    background: linear-gradient(135deg, #98CB3B, #386641);  /* Green gradient */
+    background: linear-gradient(135deg, #98CB3B, #98CB3B);  /* Green gradient */
     box-shadow: 0 8px 25px rgba(106, 153, 78, 0.3);
     color: white;
 }
@@ -320,9 +320,9 @@ body {
 }
 
 .technique-option input[type="radio"]:checked + label {
-    background: linear-gradient(135deg, #8cb369, #6a994e);  /* Light to dark green gradient */
+    background: linear-gradient(135deg, #98CB3B, #98CB3B);  /* Light to dark green gradient */
     color: white;
-    border-color: #98CB3B;  /* Darker green */
+    border : 1px solid black;  /* Darker green */
     transform: scale(1.05);
     box-shadow: 0 8px 25px rgba(140, 179, 105, 0.3);
 }
@@ -440,7 +440,7 @@ body {
 }
 
 .results-panel {
-    background: white;  /* Very light green */
+    background: white; 
     border-radius: 20px;
     padding: 15px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.05);
@@ -735,7 +735,7 @@ body {
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 400px) {
     /* Reinforce the arrow rotation for smaller screens */
     .arrow, #signalFlow .arrow {
         transform: rotate(90deg) !important;
