@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f8f2;  /* Lighter green background */
+    background-color:white;  /* Lighter green background */
     min-height: 100vh;
     color: #333;
 }
@@ -75,14 +75,14 @@ body {
 
 .nav-tabs .nav-link:hover {
     background: rgba(146, 204, 65, 0.1);  /* Light green hover */
-    color: #6a994e;  /* Darker green text */
+    color: #98CB3B  /* Darker green text */
 }
 
 .nav-tabs .nav-link.active {
     background: white;
-    color: #6a994e;  /* Darker green text */
+    color: #98CB3B;  /* Darker green text */
     border-radius: 15px 15px 0 0;
-    border-top: 4px solid #6a994e;  /* Darker green border */
+    border-top: 4px solid #98CB3B;  /* Darker green border */
     box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
 }
 
@@ -163,8 +163,8 @@ body {
 .instructions-card h3 {
     margin-bottom: 15px;
     font-weight: 700;
-    color: #6a994e;  /* Darker green text */
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    color: #98CB3B  /* Darker green text */
+  
 }
 
 .instructions-card ol, .instructions-card p {
@@ -178,7 +178,7 @@ body {
 }
 
 .control-panel, .visualization-area, .output-panel, .analysis-control-panel {
-    background: #f7fbef;  /* Very light green */
+    background: white;  /* Very light green */
     border-radius: 20px;
     padding: 15px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.05);
@@ -211,7 +211,7 @@ body {
 }
 
 .input-group.horizontal .form-select,
-.input-group.horizontal .form-control {
+.input-group.horizontal .form-control{
     flex-grow: 0;
     width: 120px;
     text-align: center;
@@ -233,7 +233,7 @@ body {
 }
 
 .form-control:focus, .form-select:focus {
-    border-color: #8cb369;  /* Light green */
+    border-color: #98CB3B;  /* Light green */
     box-shadow: 0 0 0 0.25rem rgba(140, 179, 105, 0.25);
 }
 
@@ -241,7 +241,7 @@ body {
     text-align: center;
     font-weight: 800;
     margin-bottom: clamp(10px, 4vw, 20px);
-    color: #557a46;  /* Dark green */
+    color: #98CB3B;  /* Dark green */
     font-size: clamp(1.1rem, 3vw, 1.5rem);
     line-height: 1.3;
 }
@@ -260,19 +260,19 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #8cb369, #6a994e);  /* Light to dark green gradient */
+    background: linear-gradient(135deg, #98CB3B, #6a994e);  
     box-shadow: 0 8px 25px rgba(140, 179, 105, 0.3);
     color: white;
 }
 
 .btn-secondary {
-    background: #a7c957;  /* Lighter green */
+    background: #98CB3B;  /* Lighter green */
     box-shadow: 0 8px 25px rgba(167, 201, 87, 0.2);
     color: #333;
 }
 
 .btn-success {
-    background: linear-gradient(135deg, #6a994e, #386641);  /* Green gradient */
+    background: linear-gradient(135deg, #98CB3B, #386641);  /* Green gradient */
     box-shadow: 0 8px 25px rgba(106, 153, 78, 0.3);
     color: white;
 }
@@ -316,7 +316,7 @@ body {
 .technique-option input[type="radio"]:checked + label {
     background: linear-gradient(135deg, #8cb369, #6a994e);  /* Light to dark green gradient */
     color: white;
-    border-color: #6a994e;  /* Darker green */
+    border-color: #98CB3B;  /* Darker green */
     transform: scale(1.05);
     box-shadow: 0 8px 25px rgba(140, 179, 105, 0.3);
 }
@@ -375,7 +375,7 @@ body {
 
 .arrow {
     font-size: clamp(1.5rem, 4vw, 2.5rem);
-    color: #8cb369;  /* Light green */
+    color: #98CB3B;  /* Light green */
     animation: pulse 2s infinite;
     align-self: center;
 }
@@ -394,7 +394,7 @@ body {
 
 .noise-arrow {
     font-size: 1.5rem;
-    color: #a7c957;  /* Light green */
+    color: #98CB3B;  /* Light green */
     animation: bounce 1.5s infinite;
 }
 
@@ -434,7 +434,7 @@ body {
 }
 
 .results-panel {
-    background: #f7fbef;  /* Very light green */
+    background: white;  /* Very light green */
     border-radius: 20px;
     padding: 15px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.05);
@@ -442,7 +442,7 @@ body {
 }
 
 .results-panel h4 {
-    color: #557a46;  /* Dark green */
+    color: #98CB3B;  /* Dark green */
     margin-bottom: clamp(8px, 3vw, 15px);
     font-weight: 700;
     font-size: clamp(1rem, 2.5vw, 1.3rem);
@@ -501,7 +501,7 @@ body {
 }
 
 .chart-container h4 {
-    color: #557a46;  /* Dark green */
+    color: #98CB3B;  /* Dark green */
     font-size: clamp(1rem, 2.5vw, 1.3rem);
     text-align: center;
     margin-bottom: clamp(10px, 3vw, 20px);
