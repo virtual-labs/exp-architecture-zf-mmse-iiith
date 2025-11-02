@@ -53,7 +53,7 @@
                                 <h4>Inputs</h4>
                                 <div class="input-group horizontal">
                                     <label for="modulationScheme">Modulation:</label>
-                                    <select class="form-select" id="modulationScheme">
+                                    <select class="form-select" id="modulationScheme" style="border-radius: 0;">
                                         <option value="BPSK">BPSK</option>
                                         <option value="QPSK" selected>QPSK</option>
                                         <option value="16QAM">16-QAM</option>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="input-group horizontal">
                                     <label for="numTxAntennas">Tx Antennas (Nt):</label>
-                                    <select class="form-select" id="numTxAntennas">
+                                    <select class="form-select" id="numTxAntennas" style="border-radius: 0;">
                                         <option value="2" selected>2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="input-group horizontal">
                                     <label for="numRxAntennas">Rx Antennas (Nr):</label>
-                                    <select class="form-select" id="numRxAntennas">
+                                    <select class="form-select" id="numRxAntennas" style="border-radius: 0;">
                                         <option value="2" selected>2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
@@ -82,9 +82,9 @@
                                         <option value="16">16</option>
                                     </select>
                                 </div>
-                                <div class="input-group horizontal">
+                                <div class="input-group horizontal" >
                                     <label for="snrInput">SNR (dB):</label>
-                                    <input type="number" class="form-control" id="snrInput" value="10" min="0" max="40" step="1">
+                                    <input type="number" style="border-radius: 0;" class="form-control" id="snrInput" value="10" min="0" max="40" step="1">
                                 </div>
                                 
                                 <button class="btn btn-primary w-100 mt-3" id="simulateBtn" onclick="runSimulation()">Simulate Channel</button>
@@ -219,7 +219,7 @@
                                    
                             </div>
                         </div>
-                        <div class="col-xl-6 col-lg-7 col-md-12" style="border:2px solid black; border-radius:20px;">
+                        <div class="col-xl-6 col-lg-7 col-md-12" style=" border-radius:20px;">
                             <div class="chart-container" id="serChartContainer">
                                 <div id="chartLoadingIndicator" class="loading"><div class="spinner"></div><p>Generating SER curve...</p></div>
                                 <h4>Symbol Error Rate vs. SNR</h4>
