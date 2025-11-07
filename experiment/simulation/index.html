@@ -53,7 +53,7 @@
                                 <h4>Inputs</h4>
                                 <div class="input-group horizontal">
                                     <label for="modulationScheme">Modulation:</label>
-                                    <select class="form-select" id="modulationScheme">
+                                    <select class="form-select" id="modulationScheme" style="border-radius: 0;">
                                         <option value="BPSK">BPSK</option>
                                         <option value="QPSK" selected>QPSK</option>
                                         <option value="16QAM">16-QAM</option>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="input-group horizontal">
                                     <label for="numTxAntennas">Antennas (N<sub>t</sub> = N<sub>r</sub>):</label>
-                                    <select class="form-select" id="numTxAntennas">
+                                    <select class="form-select" id="numTxAntennas" style="border-radius: 0;">
                                         <option value="2" selected>2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="input-group horizontal">
                                     <label for="snrInput">SNR (dB):</label>
-                                    <input type="number" class="form-control" id="snrInput" value="10" min="0" max="40" step="1">
+                                    <input type="number" class="form-control" id="snrInput" value="10" min="0" max="40" step="1" style="border-radius: 0;">
                                 </div>
                                 
                                 <button class="btn btn-primary w-100 mt-3" id="simulateBtn" onclick="runSimulation()">Simulate Channel</button>
@@ -152,7 +152,7 @@
                                 <h4>Plot Controls</h4>
                                 <div class="input-group horizontal">
                                     <label for="analysisModulation">Modulation:</label>
-                                    <select class="form-select" id="analysisModulation">
+                                    <select class="form-select" id="analysisModulation" style="border-radius: 0;">
                                         <option value="BPSK">BPSK</option>
                                         <option value="QPSK" selected>QPSK</option>
                                         <option value="16QAM">16-QAM</option>
@@ -161,7 +161,7 @@
                                 </div>
                                 <div class="input-group horizontal">
                                     <label for="analysisNumTxAntennas">Tx Antennas (Nt):</label>
-                                    <select class="form-select" id="analysisNumTxAntennas">
+                                    <select class="form-select" id="analysisNumTxAntennas" style="border-radius: 0;">
                                         <option value="2" selected>2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
@@ -169,7 +169,7 @@
                                 </div>
                                 <div class="input-group horizontal">
                                     <label for="analysisNumRxAntennas">Rx Antennas (Nr):</label>
-                                    <select class="form-select" id="analysisNumRxAntennas">
+                                    <select class="form-select" id="analysisNumRxAntennas" style="border-radius: 0;">
                                         <option value="2" selected>2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
@@ -177,7 +177,7 @@
                                 </div>
                                 <div class="input-group horizontal" id="channelConditionGroup">
                                     <label for="channelConditionFactor">Noise Enhancement Factor:</label>
-                                    <select class="form-select" id="channelConditionFactor">
+                                    <select class="form-select" id="channelConditionFactor" style="border-radius: 0;">
                                         <option value="1.0" selected>1.0</option>
                                         <option value="1.5">1.5</option>
                                         <option value="2.0">2.0</option>
