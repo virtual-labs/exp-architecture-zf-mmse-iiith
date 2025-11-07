@@ -140,7 +140,7 @@ function updateChannelConditionVisibility() {
 function generateRandomSymbols() {
     currentModulation = document.getElementById('modulationScheme').value;
     currentNt = parseInt(document.getElementById('numTxAntennas').value);
-    currentNr = parseInt(document.getElementById('numRxAntennas').value);
+    currentNr = currentNt; // Force Nr to equal Nt
     const constPoints = constellations[currentModulation];
     originalSymbolIndices = [];
     modulatedSymbols = [];
