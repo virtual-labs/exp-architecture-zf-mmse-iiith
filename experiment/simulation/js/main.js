@@ -266,8 +266,7 @@ function updateDisplay() {
     if (!r) return;
 
     document.getElementById('serValue').innerText = r.ser.toFixed(3);
-    document.getElementById('errorCount').innerText = `${r.errors} / ${originalSymbolIndices.length}`;
-    document.getElementById('conditionNumber').innerText = r.conditionNumber.toFixed(2);
+    // Removed errorCount and conditionNumber updates
 
     const equalizedPlot = document.getElementById('equalizedPlot');
     if (equalizedPlot) {
