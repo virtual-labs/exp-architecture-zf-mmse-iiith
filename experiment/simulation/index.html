@@ -61,8 +61,8 @@
                                     </select>
                                 </div>
                                 <div class="input-group horizontal">
-                                    <label for="numTxAntennas">Tx Antennas (Nt):</label>
-                                    <select class="form-select" id="numTxAntennas" style="border-radius: 0;">
+                                    <label for="numTxAntennas">Antennas (N<sub>t</sub> = N<sub>r</sub>):</label>
+                                    <select class="form-select" id="numTxAntennas">
                                         <option value="2" selected>2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
@@ -72,17 +72,6 @@
                                     </select>
                                 </div>
                                 <div class="input-group horizontal">
-                                    <label for="numRxAntennas">Rx Antennas (Nr):</label>
-                                    <select class="form-select" id="numRxAntennas" style="border-radius: 0;">
-                                        <option value="2" selected>2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="6">6</option>
-                                        <option value="8">8</option>
-                                        <option value="16">16</option>
-                                    </select>
-                                </div>
-                                <div class="input-group horizontal" >
                                     <label for="snrInput">SNR (dB):</label>
                                     <input type="number" style="border-radius: 0;" class="form-control" id="snrInput" value="10" min="0" max="40" step="1">
                                 </div>
