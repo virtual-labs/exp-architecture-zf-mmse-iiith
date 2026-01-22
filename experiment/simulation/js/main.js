@@ -72,61 +72,94 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeSERChart();
         resetSignalFlow();
         
-        const tabEl = document.querySelector('#myTab .nav-link');
-        if (tabEl) {
-            const tab = new bootstrap.Tab(tabEl);
-            tab.show();
-        }
+        // Initial Highlight
+        highlightInstruction('sim-step-1');
+
+        // Tab switching logic
+        const tabEl = document.querySelectorAll('button[data-bs-toggle="tab"]');
+        tabEl.forEach(tab => {
+            tab.addEventListener('shown.bs.tab', function (event) {
+                if (event.target.id === 'equalizer-tab') {
+                    highlightInstruction('sim-step-1');
+                } else if (event.target.id === 'performance-tab') {
+                    highlightInstruction('perf-step-1');
+                }
+            });
+        });
         
+        // --- SIMULATION TAB LISTENERS ---
+        // Step 1: Inputs
+        ['modulationScheme', 'numTxAntennas'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('change', () => highlightInstruction('sim-step-1'));
+        });
+        
+        // Step 2: SNR Input
+        const snrInput = document.getElementById('snrInput');
+        if(snrInput) snrInput.addEventListener('input', () => highlightInstruction('sim-step-2'));
+        
+        // Step 5: Technique switching
+        document.querySelectorAll('input[name="technique"]').forEach(radio => {
+            radio.addEventListener('change', () => highlightInstruction('sim-step-5'));
+        });
+
+        // --- PERFORMANCE TAB LISTENERS ---
         const analysisElements = [
             'analysisNumTxAntennas',
             'analysisNumRxAntennas', 
-            'analysisModulation',
-            'channelConditionFactor'  // Updated name
+            'analysisModulation'
         ];
-
+        
+        // Step 1: Performance Inputs
         analysisElements.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
                 element.addEventListener('change', () => {
+                    highlightInstruction('perf-step-1');
                     if (savedCurves.length > 0) updateAnalysisChart();
                 });
             }
         });
 
+        // Step 2: Channel Condition
+        const condFactor = document.getElementById('channelConditionFactor');
+        if (condFactor) {
+            condFactor.addEventListener('change', () => {
+                highlightInstruction('perf-step-2');
+                if (savedCurves.length > 0) updateAnalysisChart();
+            });
+        }
+
+        // Step 3: Technique
         document.querySelectorAll('input[name="analysisTechnique"]').forEach(radio => {
             radio.addEventListener('change', () => {
-                updateChannelConditionVisibility();
+                highlightInstruction('perf-step-3');
+                updateChannelConditionVisibility(); // Ensure this function exists or remove if not needed
                 if (savedCurves.length > 0) updateAnalysisChart();
             });
         });
 
-        // Initial setup - always show since both equalizers are affected
+        // Initial setup for visibility
         updateChannelConditionVisibility();
-        
-        analysisElements.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.addEventListener('change', () => {
-                    if (savedCurves.length > 0) updateAnalysisChart();
-                });
-            }
-        });
-        
-        document.querySelectorAll('input[name="analysisTechnique"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                updateNoiseAmplificationVisibility();
-                if (savedCurves.length > 0) updateAnalysisChart();
-            });
-        });
 
-        // Initial setup for the performance tab
-        updateNoiseAmplificationVisibility();
     } catch (error) {
         console.error('Initialization error:', error);
     }
 });
 
+// ADDED: Helper function for highlighting instructions
+function highlightInstruction(stepId) {
+    // Remove active class from all instruction steps
+    document.querySelectorAll('.v-content li').forEach(li => {
+        li.classList.remove('active-instruction');
+    });
+
+    // Add active class to the specific step
+    const step = document.getElementById(stepId);
+    if (step) {
+        step.classList.add('active-instruction');
+    }
+}
 
 function updateChannelConditionVisibility() {
     // Always show the channel condition factor for both ZF and MMSE
@@ -152,6 +185,18 @@ function generateRandomSymbols() {
 }
 
 async function runSimulation() {
+    // --- ADDED: Instruction Highlighting Logic ---
+    const simulateBtn = document.getElementById('simulateBtn');
+    
+    // Check if the "Simulate Channel" button is currently visible.
+    // If yes, we are performing Step 3. If no (and "Run New Symbols" is visible), we are on Step 6.
+    if (simulateBtn && simulateBtn.style.display !== 'none') {
+        highlightInstruction('sim-step-3');
+    } else {
+        highlightInstruction('sim-step-6');
+    }
+    // ---------------------------------------------
+
     document.getElementById('loadingIndicator').style.display = 'flex';
     document.getElementById('simulateBtn').disabled = true;
     document.getElementById('regenerateBtn').disabled = true;
@@ -214,7 +259,6 @@ async function runSimulation() {
         }
         mmse_eq_data = W_mmse ? multiplyMatrixVector(W_mmse, noisyReceivedSymbols) : [];
 
-
         await new Promise(resolve => setTimeout(resolve, 1));
         const zf_demod = demodulate(zf_eq_data, currentModulation);
         const mmse_demod = demodulate(mmse_eq_data, currentModulation);
@@ -249,6 +293,17 @@ async function runSimulation() {
         
         await new Promise(resolve => setTimeout(resolve, 5));
         updateConstellationPlots();
+
+        // --- ADDED: Automatically move to Step 4 (Observation) ---
+        // We use a small delay so the user sees Step 3 highlight, then the results appear, then Step 4 highlights.
+        setTimeout(() => {
+            const eqTab = document.getElementById('equalizer');
+            // Only trigger if we are still on the simulation tab
+            if(eqTab && eqTab.classList.contains('active')) {
+                highlightInstruction('sim-step-4');
+            }
+        }, 1500);
+        // ---------------------------------------------------------
 
     } catch (error) {
         console.error('Simulation error:', error);
@@ -569,6 +624,9 @@ async function calculateSERvsSNR(mod, Nt, Nr, equalizer, channelConditionFactor 
 }
 
 async function addSERCurve() {
+    // ADDED: Highlight Step 4 immediately when clicked
+    highlightInstruction('perf-step-4');
+
     if (savedCurves.length >= maxCurves) {
         alert(`You can only plot up to ${maxCurves} configurations. Please reset the plots to add more.`);
         return;
@@ -588,6 +646,10 @@ async function addSERCurve() {
         const newCurve = await calculateSERvsSNR(mod, Nt, Nr, equalizer, channelConditionFactor);
         savedCurves.push(newCurve);
         updateAnalysisChart();
+        
+        // ADDED: Move to Step 5 (Add more curves) after plotting is done
+        highlightInstruction('perf-step-5');
+
     } catch (error) {
         console.error('Error generating curve:', error);
         alert('An error occurred while generating the curve. Please check the console for details.');
@@ -599,8 +661,16 @@ async function addSERCurve() {
 }
 
 function resetSERChart() {
+    // ADDED: Highlight Step 6 (Reset)
+    highlightInstruction('perf-step-6');
+
     savedCurves.length = 0;
     updateAnalysisChart();
+    
+    // ADDED: Guide user back to Step 1 after a short delay
+    setTimeout(() => {
+        highlightInstruction('perf-step-1');
+    }, 1500);
 }
 
 const predefinedColors = [
