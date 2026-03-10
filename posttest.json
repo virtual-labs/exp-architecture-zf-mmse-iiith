@@ -1,0 +1,158 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "Which of the following statements is true about ZF and MMSE?",
+      "answers": {
+        "a": "ZF always outperforms MMSE",
+        "b": "MMSE and ZF perform equally at high noise",
+        "c": "MMSE performs better than ZF at low SNR",
+        "d": "MMSE is a linear approximation of ZF"
+      },
+      "explanations": {
+        "a": "Incorrect. ZF does not always outperform MMSE; MMSE can outperform ZF especially at low SNR.",
+        "b": "Incorrect. MMSE and ZF perform similarly at high SNR, not high noise.",
+        "c": "Correct. MMSE accounts for noise and generally performs better than ZF at low SNR.",
+        "d": "Incorrect. MMSE is not a linear approximation of ZF."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the major drawback of the Zero Forcing (ZF) equalizer?",
+      "answers": {
+        "a": "It requires channel state information",
+        "b": "It amplifies noise in channels with deep fades or low singular values",
+        "c": "It has high computational complexity",
+        "d": "It does not work with MIMO systems"
+      },
+      "explanations": {
+        "a": "Incorrect. Both ZF and MMSE require channel knowledge.",
+        "b": "Correct. ZF can significantly amplify noise especially in channels with low singular values.",
+        "c": "Incorrect. ZF is computationally simpler than some other equalizers like ML.",
+        "d": "Incorrect. ZF is commonly used in MIMO systems."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which equalizer is computationally simpler but less robust to noise?",
+      "answers": {
+        "a": "MMSE",
+        "b": "ZF",
+        "c": "Maximum Likelihood",
+        "d": "Sphere Decoder"
+      },
+      "explanations": {
+        "a": "Incorrect. MMSE is more complex but more robust to noise.",
+        "b": "Correct. ZF is simpler but amplifies noise in poor channel conditions.",
+        "c": "Incorrect. Maximum Likelihood detection is computationally intensive.",
+        "d": "Incorrect. Sphere Decoder is a near-ML method and computationally demanding."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "The MMSE equalizer reduces to the Zero Forcing equalizer in which case?",
+      "answers": {
+        "a": "High noise power",
+        "b": "Low signal power",
+        "c": "Infinite SNR (i.e., noise → 0)",
+        "d": "Infinite bandwidth"
+      },
+      "explanations": {
+        "a": "Incorrect. At high noise, MMSE and ZF differ significantly.",
+        "b": "Incorrect. Signal power level alone doesn't cause MMSE to reduce to ZF.",
+        "c": "Correct. As noise approaches zero, MMSE converges to ZF solution.",
+        "d": "Incorrect. Bandwidth does not affect this relationship."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the effect of MMSE regularization compared to ZF?",
+      "answers": {
+        "a": "It reduces inter-symbol interference but increases complexity",
+        "b": "It adds a noise-dependent regularization term to reduce noise amplification",
+        "c": "It ignores the channel matrix",
+        "d": "It increases the condition number of the matrix"
+      },
+      "explanations": {
+        "a": "Incorrect. Both MMSE and ZF address interference, but MMSE specifically regularizes to reduce noise amplification.",
+        "b": "Correct. MMSE adds a regularization term dependent on noise variance to mitigate noise amplification.",
+        "c": "Incorrect. MMSE explicitly uses the channel matrix.",
+        "d": "Incorrect. MMSE improves conditioning by regularization."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which matrix operation is used in the ZF equalizer for a MIMO channel with matrix Hᴴ?",
+      "answers": {
+        "a": "Hᴴ",
+        "b": "(Hᴴ H)⁻¹ Hᴴ",
+        "c": "H Hᴴ",
+        "d": "H⁻¹"
+      },
+      "explanations": {
+        "a": "Incorrect. This is just the Hermitian, not the full ZF equalizer.",
+        "b": "Correct. ZF uses the pseudo-inverse: (Hᴴ H)⁻¹ Hᴴ.",
+        "c": "Incorrect. This is not the ZF equalizer operation.",
+        "d": "Incorrect. H may not be square or invertible."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "In a system where H is the channel matrix and σ² is the noise variance, what is the MMSE equalizer matrix?",
+      "answers": {
+        "a": "H⁻¹",
+        "b": "(Hᴴ H)⁻¹ Hᴴ",
+        "c": "(Hᴴ H + σ² I)⁻¹ Hᴴ",
+        "d": "Hᴴ (H Hᴴ + σ² I)⁻¹"
+      },
+      "explanations": {
+        "a": "Incorrect. H may not be invertible and this ignores noise.",
+        "b": "Incorrect. This is the ZF equalizer.",
+        "c": "Correct. MMSE equalizer is (Hᴴ H + σ² I)⁻¹ Hᴴ, accounting for noise.",
+        "d": "Incorrect. This is not the standard MMSE formula."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What happens when the MIMO channel matrix Hᴴ is not full-rank?",
+      "answers": {
+        "a": "ZF works perfectly",
+        "b": "MMSE and ZF perform the same",
+        "c": "ZF becomes ill-conditioned and performs poorly",
+        "d": "Both ZF and MMSE are optimal"
+      },
+      "explanations": {
+        "a": "Incorrect. ZF struggles with rank-deficient channels.",
+        "b": "Incorrect. MMSE handles rank deficiency better due to regularization.",
+        "c": "Correct. ZF becomes ill-conditioned and amplifies noise, degrading performance.",
+        "d": "Incorrect. Neither is optimal in this case; MMSE is generally better."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which equalizer performs best in terms of Bit Error Rate (BER) in a noisy and ill-conditioned channel?",
+      "answers": {
+        "a": "Zero Forcing",
+        "b": "MMSE",
+        "c": "Maximum Likelihood Detection",
+        "d": "Matched Filter"
+      },
+      "explanations": {
+        "a": "Incorrect. ZF performs poorly under noise and ill-conditioning.",
+        "b": "Incorrect. MMSE is good but not optimal.",
+        "c": "Correct. Maximum Likelihood Detection achieves the best BER performance but at higher complexity.",
+        "d": "Incorrect. Matched Filter is not optimal for MIMO equalization."
+      },
+      "correctAnswer": "c",
+      "difficulty": "advanced"
+    }
+  ]
+}
