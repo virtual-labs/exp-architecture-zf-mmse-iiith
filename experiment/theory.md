@@ -53,11 +53,19 @@ The ZF equalizer restores the transmitted signal by "forcing" the effect of the 
 
 ## MMSE Equalizer
 
-MMSE equalizer is designed to optimize signal recovery by balancing the trade-off between channel inversion and noise amplification. Unlike the ZF equalizer, the MMSE equalizer does not completely negate the channel's impact; instead, it minimizes the mean square error between the transmitted and estimated symbols. The linear MMSE filter is given by
+MMSE equalizer is designed to optimize signal recovery by balancing the trade-off between channel inversion and noise amplification. Unlike the ZF equalizer, the MMSE equalizer does not completely negate the channel's impact; instead, it minimizes the mean square error between the transmitted symbol vector $\mathbf{x}$ and the estimated symbol vector $\hat{\mathbf{x}} = W\mathbf{y}$. 
+
+Mathematically, this optimization problem is formulated as:
+
+$$
+W_{MMSE} = \arg \min_{W} \mathbb{E} \left[ \| \mathbf{x} - W\mathbf{y} \|^2 \right]
+$$
+
+Solving this optimization problem yields the linear MMSE filter, given by
 
 $$
 \begin{aligned}
-   W_{MMSE} = \left(H^HH + \sigma_n^2I\right)^{-1}H^H,
+    W_{MMSE} = \left(H^HH + \sigma_n^2I\right)^{-1}H^H,
 \end{aligned}
 $$
 
@@ -71,7 +79,7 @@ $$
 \end{aligned}
 $$
 
-The MMSE equalizer provides a better balance between channel inversion and noise amplification by scaling the received signal with $\left(H^HH + \sigma_n^2I\right)^{-1}H^H$. Because of this scaling, the SNR of the equalized and originally received signal remain unchanged. However, it is interesting to note that when channel is poor (i.e $H^HH \approx 0$), the term  $\sigma_n^2I$ will restrict the noise amplification. On the contrary, when channel is good (i.e $H^HH$ >> $\sigma_n^2I$), MMSE equalizer reduces to ZF equalizer. Thus, we observe that MMSE provides additional benefits in low SNR regime while performing on par with ZF under good channel conditions.
+The MMSE equalizer provides a better balance between channel inversion and noise amplification by scaling the received signal with $\left(H^HH + \sigma_n^2I\right)^{-1}H^H$. Because of this scaling, the SNR of the equalized and originally received signal remain unchanged. However, it is interesting to note that when the channel is poor (i.e., $H^HH \approx 0$), the term $\sigma_n^2I$ will restrict the noise amplification. On the contrary, when the channel is good (i.e., $H^HH \gg \sigma_n^2I$), the MMSE equalizer reduces to the ZF equalizer. Thus, we observe that MMSE provides additional benefits in the low SNR regime while performing on par with ZF under good channel conditions.
 
 
 ## Comparative Performance of ZF and MMSE Equalizers
