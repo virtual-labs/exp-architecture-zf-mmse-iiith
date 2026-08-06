@@ -9,6 +9,8 @@
 ### Developers
 | SNo. | Name | Email | Institute ID| 
 | :---: | :---: | :---: | :---: | 
-| 1 | Yash Motwani | yash.motwani@iiit.ac.in | 	2020122002 | 
+| 1 | Ved Prakash Maurya| ved.maurya@students.iiit.ac.in | 2023101006 | 
 | 2 | Rishiveer Yadav Angirekula | rishiveeryadav.a@research.iiit.ac.in | 2023122004 | 
-| 3 | Ved Prakash Maurya| ved.maurya@students.iiit.ac.in | 2023101006 | 
+| 3 | Yash Motwani | yash.motwani@iiit.ac.in | 	2020122002 | 
+
+
